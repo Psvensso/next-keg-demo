@@ -1,21 +1,40 @@
 {
-  "name": "keg-workspace-root",
-  "version": "1.0.0",
-  "private": "true",
-  "description": "",
-  "license": "ISC",
-  "author": "https://github.com/Psvensso",
-  "workspaces": [
-    "packages/*",
-    "apps/*"
-  ],
+  "name": "keg-webb",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "start": "npm run start --workspaces --if-present",
-    "dev": "npm run dev --workspaces --if-present",
-    "build": "npm run build --workspaces --if-present",
-    "db:reset": "npm run reset:prisma --workspace=@keg/db",
-    "db:studio": "npm run studio --workspace=@keg/db",
-    "db:seed": "npm run seed --workspace=@keg/db"
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:seed": "tsx ./prisma/seed/seed.ts",
+    "db:studio": "npx prisma studio --schema=prisma/schema.prisma",
+    "db:reset": "rimraf prisma/dev.db && rimraf src/utils/generated/ && prisma migrate reset --force --schema=prisma/schema.prisma && prisma generate --schema=prisma/schema.prisma && npm run db:seed"
   },
-  "devDependencies": {}
+  "dependencies": {
+    "@prisma/client": "^6.6.0",
+    "@emotion/styled": "^11.14.0",
+    "@emotion/cache": "^11.14.0",
+    "@emotion/react": "^11.14.0",
+    "@mui/material": "^7.0.2",
+    "@mui/material-nextjs": "^7.0.2",
+    "next": "15.3.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tailwindcss": "^4.1.4"
+  },
+  "devDependencies": {
+    "csv-parser": "^3.2.0",
+    "prisma": "^6.6.0",
+    "tsx": "^4.19.3",
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4.1.4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.3.0",
+    "postcss": "^8.5.3",
+    "typescript": "^5"
+  }
 }

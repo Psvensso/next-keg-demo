@@ -3,12 +3,12 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
+  output   = "../src/utils/generated/prisma/client"
 }
 
 datasource db {
   provider = "sqlite"
-  url      = env("./dev.db")
+  url      = "file:./dev.db"
 }
 
 model Course {

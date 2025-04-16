@@ -4,6 +4,9 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: [],
   },
+  images: {
+    domains: ["mui.com"],
+  },
 };
 
 export default nextConfig;

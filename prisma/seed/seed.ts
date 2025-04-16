@@ -1,15 +1,21 @@
+import { PrismaClient } from "@/utils/generated/prisma/client";
 import csv from "csv-parser";
 import * as fs from "fs";
 import * as path from "path";
-import { Course, PrismaClient } from "../generated/prisma";
+import { fileURLToPath } from "url";
 
 const prisma = new PrismaClient();
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 async function seedDatabase() {
   const filePath = path.join(__dirname, "technical_assignment_input_data.csv");
-  const courses: Course[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const courses: any[] = [];
   fs.createReadStream(filePath)
     .pipe(csv({ separator: ";" }))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .on("data", (row: any) => {
       courses.push({
         id: row.CourseId,
