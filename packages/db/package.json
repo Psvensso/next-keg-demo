@@ -1,0 +1,23 @@
+{
+  "name": "@keg/db",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "seed": "tsx ./seed/seed.ts",
+    "studio": "npx prisma studio",
+    "reset:prisma": "rimraf prisma/dev.db && prisma migrate reset --force && prisma generate"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "csv-parser": "^3.2.0",
+    "prisma": "^6.6.0",
+    "tsx": "^4.19.3"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.6.0"
+  }
+}

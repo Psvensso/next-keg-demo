@@ -1,0 +1,25 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("./dev.db")
+}
+
+model Course {
+  id             String   @id @default(uuid()) @map("CourseId")
+  instituteName  String   @map("InstituteName")
+  courseName     String   @map("CourseName")
+  category       String   @map("Category")
+  deliveryMethod String   @map("DeliveryMethod")
+  location       String   @map("Location")
+  language       String?  @map("Language")
+  startDate      DateTime @map("StartDate")
+
+  @@map("courses")
+}
