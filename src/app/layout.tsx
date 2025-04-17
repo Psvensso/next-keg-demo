@@ -1,8 +1,6 @@
-import { ThemeProvider } from "@mui/material";
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
+import { Provider } from "@/components/ui/provider";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
-import theme from "../theme";
 import "./global.css";
 
 export const metadata: Metadata = {
@@ -23,11 +21,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={roboto.variable}>
+    <html lang="en" className={roboto.variable} suppressHydrationWarning>
       <body>
-        <AppRouterCacheProvider options={{ key: "keg" }}>
-          <ThemeProvider theme={theme}>{children}</ThemeProvider>
-        </AppRouterCacheProvider>
+        <Provider>{children}</Provider>
       </body>
     </html>
   );

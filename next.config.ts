@@ -2,10 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   experimental: {
-    optimizePackageImports: [],
-  },
-  images: {
-    domains: ["mui.com"],
+    dynamicIO: true,
+    optimizePackageImports: ["@chakra-ui/react"],
   },
 };
 

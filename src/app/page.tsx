@@ -1,17 +1,16 @@
 import Btn from "@/components/Btn";
 import CategoryPicker from "@/components/CategoryPicker/CategoryPicker";
-import BasicTable from "@/components/TestTable";
-import prisma from "@/utils/prisma";
+import { Button, HStack } from "@chakra-ui/react";
 
 export default async function Home() {
-  const count = await prisma.course.count();
-  const date = new Date().toUTCString();
   return (
     <>
-      {date}
-      <CategoryPicker count={count} />
+      <HStack>
+        <Button>Click me</Button>
+        <Button>Click me</Button>
+      </HStack>
+      <CategoryPicker />
       <Btn />
-      <BasicTable />
     </>
   );
 }
