@@ -13,14 +13,14 @@ datasource db {
 }
 
 model Course {
-  id             String   @id @default(uuid()) @map("CourseId")
-  instituteName  String   @map("InstituteName")
-  courseName     String   @map("CourseName")
-  category       String   @map("Category")
-  deliveryMethod String   @map("DeliveryMethod")
-  location       String   @map("Location")
-  language       String?  @map("Language")
-  startDate      DateTime @map("StartDate")
-
+  instituteName  String
+  instituteNameSlug String
+  courseName     String
+  courseNameSlug String @id
+  category       String
+  deliveryMethod String
+  location       String
+  language       String?
+  startDate      DateTime
   @@map("courses")
 }
