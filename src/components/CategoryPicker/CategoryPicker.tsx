@@ -5,7 +5,6 @@ const CategoryPicker = async () => {
   //Get all unique prisma.course.category
   const categories = await prisma.course.findMany({
     select: {
-      id: true,
       category: true,
     },
     distinct: ["category"],

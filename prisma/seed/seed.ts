@@ -1,14 +1,25 @@
 import { PrismaClient } from "@/utils/generated/prisma/client";
 import csv from "csv-parser";
 import * as fs from "fs";
-import GithubSlugger from "github-slugger";
 import * as path from "path";
 import { fileURLToPath } from "url";
 
-const prisma = new PrismaClient();
-const instituteSlugger = new GithubSlugger();
-const courseSlugger = new GithubSlugger();
+//Makes a url safe slug name from a course title
+function sluggify(str: string) {
+  str = str.replace(/å/g, "a");
+  str = str.replace(/ä/g, "a");
+  str = str.replace(/ö/g, "o");
+  str = str.toLowerCase();
+  str = str.replace(/\s+/g, "-"); // Replace spaces with hyphens
+  str = str.replace(/&/g, "-and-"); // Replace & with 'and'
+  str = str.replace(/[^\w-]+/g, ""); // Remove all non-word chars
+  str = str.replace(/--+/g, "-"); // Replace multiple hyphens with single hyphen
+  str = str.replace(/^-+/, ""); // Trim - from start of text
+  str = str.replace(/-+$/, ""); // Trim - from end of text
+  return str;
+}
 
+const prisma = new PrismaClient();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -21,15 +32,22 @@ async function seedDatabase() {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .on("data", async (row: any) => {
         try {
-          instituteSlugger.reset();
-          const instituteNameSlug = instituteSlugger.slug(row.InstituteName);
+          const instituteNameSlug = sluggify(row.InstituteName);
+          const courseNameSlug = sluggify(row.CourseName);
+          //Just a little seed test
+          if (encodeURIComponent(instituteNameSlug) !== instituteNameSlug) {
+            throw "bad seed, instituteNameSlug: " + instituteNameSlug;
+          }
+          if (encodeURIComponent(courseNameSlug) !== courseNameSlug) {
+            throw "bad seed, courseNameSlug: " + courseNameSlug;
+          }
 
           await prisma.course.create({
             data: {
               instituteName: row.InstituteName,
-              instituteNameSlug: instituteNameSlug,
+              instituteNameSlug,
               courseName: row.CourseName,
-              courseNameSlug: courseSlugger.slug(row.CourseName),
+              courseNameSlug,
               category: row.Category,
               deliveryMethod: row.DeliveryMethod,
               location: row.Location,
