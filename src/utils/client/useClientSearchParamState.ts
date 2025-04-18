@@ -1,6 +1,6 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useMemo } from "react";
+import { useCallback, useState } from "react";
 
 type State = Record<string, string[]>;
 const getValues = (search: string, initialState: State) => {
@@ -21,14 +21,11 @@ function useClientSearchParams<T extends State>(
 ] {
   const searchParams = useSearchParams();
   const router = useRouter();
-
-  const value = useMemo(
-    () =>
-      getValues(searchParams.toString(), initialState) as Record<
-        keyof T,
-        ParamValue
-      >,
-    [searchParams, initialState]
+  const [value, setValue] = useState(
+    getValues(searchParams.toString(), initialState) as Record<
+      keyof T,
+      ParamValue
+    >
   );
 
   const updateValue = useCallback(
@@ -47,6 +44,14 @@ function useClientSearchParams<T extends State>(
         newSearch ? `?${newSearch}` : ""
       }`;
 
+      //For faster ui so we dont have to wait for server params.
+      setValue(
+        getValues(newSearch.toString(), initialState) as Record<
+          keyof T,
+          ParamValue
+        >
+      );
+
       //This will cause a nav to the server.
       //Thats ok for our filter use-case in this demo but... nah.. feels like it should be more controlled
       if (replace) {
@@ -55,7 +60,7 @@ function useClientSearchParams<T extends State>(
         router.push(href);
       }
     },
-    [searchParams, router]
+    [searchParams, router, initialState]
   );
 
   return [value as Record<keyof T, ParamValue>, updateValue] as const;

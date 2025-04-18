@@ -1,4 +1,6 @@
 import prisma from "@/utils/prisma";
+import { Box } from "@chakra-ui/react";
+import CourseSearchResultItem from "./fragments/CourseSearchResultItem";
 
 // Removed client-only useParams; accept params via props
 
@@ -17,5 +19,11 @@ export const SearchResult = async ({ category }: SearchResultProps) => {
     where: { category: { in: categories } },
   });
 
-  return <div>{courses?.length}</div>;
+  return (
+    <Box flex="1" display="flex" flexDir="column" m="16px" gap="8px">
+      {courses?.map((c) => (
+        <CourseSearchResultItem course={c} key={c.id} />
+      ))}
+    </Box>
+  );
 };

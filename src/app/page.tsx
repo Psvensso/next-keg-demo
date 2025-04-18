@@ -1,6 +1,6 @@
 import { Filters } from "@/components/Filters/Filters";
 import { SearchResult } from "@/components/SearchResult/SearchResult";
-import { HStack } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { Suspense } from "react";
 
 export default async function Home({
@@ -11,14 +11,16 @@ export default async function Home({
   const params = await searchParams;
   return (
     <>
-      <HStack>
+      <Box display="flex">
         <Suspense fallback="...">
-          <Filters />
+          <Box width="350px">
+            <Filters />
+          </Box>
         </Suspense>
         <Suspense fallback="Loading courses....">
           <SearchResult category={params.category} />
         </Suspense>
-      </HStack>
+      </Box>
     </>
   );
 }

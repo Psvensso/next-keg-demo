@@ -1,5 +1,5 @@
 import { Provider } from "@/components/ui/provider";
-import { Theme } from "@chakra-ui/react";
+import { Box, Theme } from "@chakra-ui/react";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -18,6 +18,9 @@ export default function RootLayout({
       <body>
         <Provider>
           <Theme appearance="light">
+            <Box as="header" height="45px">
+              Im a header
+            </Box>
             <Suspense>{children}</Suspense>
           </Theme>
         </Provider>
