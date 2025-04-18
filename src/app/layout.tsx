@@ -1,6 +1,7 @@
 import { Provider } from "@/components/ui/provider";
 import { Theme } from "@chakra-ui/react";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +17,9 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body>
         <Provider>
-          <Theme appearance="light">{children}</Theme>
+          <Theme appearance="light">
+            <Suspense>{children}</Suspense>
+          </Theme>
         </Provider>
       </body>
     </html>

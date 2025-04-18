@@ -1,16 +1,24 @@
-import Btn from "@/components/Btn";
-import CategoryPicker from "@/components/CategoryPicker/CategoryPicker";
-import { Button, HStack } from "@chakra-ui/react";
+import { Filters } from "@/components/Filters/Filters";
+import { SearchResult } from "@/components/SearchResult/SearchResult";
+import { HStack } from "@chakra-ui/react";
+import { Suspense } from "react";
 
-export default async function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: { category?: string | string[] };
+}) {
+  const params = await searchParams;
   return (
     <>
       <HStack>
-        <Button>Click me</Button>
-        <Button>Click me</Button>
+        <Suspense fallback="...">
+          <Filters />
+        </Suspense>
+        <Suspense fallback="Loading courses....">
+          <SearchResult category={params.category} />
+        </Suspense>
       </HStack>
-      <CategoryPicker />
-      <Btn />
     </>
   );
 }
