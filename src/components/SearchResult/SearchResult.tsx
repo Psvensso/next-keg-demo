@@ -1,22 +1,41 @@
 import prisma from "@/utils/prisma";
 import { Box } from "@chakra-ui/react";
 import CourseSearchResultItem from "./fragments/CourseSearchResultItem";
-
-// Removed client-only useParams; accept params via props
+import { SearchResultPagination } from "./fragments/SearchResultPagination";
 
 export interface SearchResultProps {
   category?: string | string[];
+  page?: string;
+  pageSize?: string;
 }
 
-export const SearchResult = async ({ category }: SearchResultProps) => {
+export const SearchResult = async ({
+  category,
+  page = "1",
+  pageSize = "10",
+}: SearchResultProps) => {
   const categories = Array.isArray(category)
     ? category
     : category
     ? [category]
     : [];
 
+  const currentPage = parseInt(page, 10);
+  const itemsPerPage = parseInt(pageSize, 10);
+
+  // Calculate skip value for pagination
+  const skip = (currentPage - 1) * itemsPerPage;
+
+  // Get courses with pagination
   const courses = await prisma.course.findMany({
-    where: { category: { in: categories } },
+    where: { category: { in: categories.length > 0 ? categories : undefined } },
+    skip,
+    take: itemsPerPage,
+  });
+
+  // Get total count for pagination
+  const totalCount = await prisma.course.count({
+    where: { category: { in: categories.length > 0 ? categories : undefined } },
   });
 
   return (
@@ -24,6 +43,14 @@ export const SearchResult = async ({ category }: SearchResultProps) => {
       {courses?.map((c) => (
         <CourseSearchResultItem course={c} key={c.id} />
       ))}
+
+      <Box mt={4} display="flex" justifyContent="center">
+        <SearchResultPagination
+          totalCount={totalCount}
+          pageSize={itemsPerPage}
+          currentPage={currentPage}
+        />
+      </Box>
     </Box>
   );
 };

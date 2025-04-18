@@ -4,6 +4,7 @@ import { createContext } from "@/utils/createContext";
 export const useFiltersClient = () => {
   const [filterState, updateFilterValue] = useClientSearchParamState({
     category: [],
+    page: "1",
   });
 
   return { filterState, updateFilterValue };

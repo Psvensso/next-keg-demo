@@ -5,7 +5,6 @@ import {
   Portal,
   Select,
   Spinner,
-  Stack,
 } from "@chakra-ui/react";
 import { useMemo } from "react";
 
@@ -50,45 +49,46 @@ const CategoryPickerSelect = () => {
     return <div>Error loading categories</div>;
   }
   return (
-    <Stack direction="column">
-      <Select.Root
-        multiple
-        collection={collection}
-        value={arrayCategoryValue}
-        onValueChange={(value) => {
-          console.log(value);
-          updateFilterValue("category", value.value);
-        }}
-        size="sm"
-        width="320px"
-      >
-        <Select.HiddenSelect />
-        <Select.Label>Select category</Select.Label>
-        <Select.Control>
-          <Select.Trigger>
-            <Select.ValueText placeholder="Select category" />
-          </Select.Trigger>
-          <Select.IndicatorGroup>
-            {optionsState.loading && (
-              <Spinner size="xs" borderWidth="1.5px" color="fg.muted" />
-            )}
-            <Select.Indicator />
-          </Select.IndicatorGroup>
-        </Select.Control>
-        <Portal>
-          <Select.Positioner>
-            <Select.Content>
-              {collection.items.map((cat) => (
-                <Select.Item item={cat.category} key={cat.category}>
-                  {cat.category}
-                  <Select.ItemIndicator />
-                </Select.Item>
-              ))}
-            </Select.Content>
-          </Select.Positioner>
-        </Portal>
-      </Select.Root>
-    </Stack>
+    <Select.Root
+      multiple
+      collection={collection}
+      value={arrayCategoryValue}
+      onValueChange={(value) => {
+        //TODO: Implement e2e test that when i update a filter page should be reset to 1
+        updateFilterValue({
+          page: "1",
+          category: value.value,
+        });
+      }}
+      size="sm"
+      width="100%"
+    >
+      <Select.HiddenSelect />
+      <Select.Label>Select category</Select.Label>
+      <Select.Control>
+        <Select.Trigger>
+          <Select.ValueText placeholder="Select category" />
+        </Select.Trigger>
+        <Select.IndicatorGroup>
+          {optionsState.loading && (
+            <Spinner size="xs" borderWidth="1.5px" color="fg.muted" />
+          )}
+          <Select.Indicator />
+        </Select.IndicatorGroup>
+      </Select.Control>
+      <Portal>
+        <Select.Positioner>
+          <Select.Content>
+            {collection.items.map((cat) => (
+              <Select.Item item={cat.category} key={cat.category}>
+                {cat.category}
+                <Select.ItemIndicator />
+              </Select.Item>
+            ))}
+          </Select.Content>
+        </Select.Positioner>
+      </Portal>
+    </Select.Root>
   );
 };
 

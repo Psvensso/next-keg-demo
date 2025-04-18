@@ -2,7 +2,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
 
-type State = Record<string, string[]>;
+type State = Record<string, string | string[]>;
 const getValues = (search: string, initialState: State) => {
   return Object.keys(initialState).reduce<State>((acc, key) => {
     acc[key] = new URLSearchParams(search).getAll(key);
@@ -17,7 +17,7 @@ function useClientSearchParams<T extends State>(
   initialState: T
 ): readonly [
   Record<keyof T, ParamValue>,
-  (paramName: keyof T, newValue: ParamValue) => void
+  (newParams: Record<keyof T, string | string[]>) => void
 ] {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -29,16 +29,24 @@ function useClientSearchParams<T extends State>(
   );
 
   const updateValue = useCallback(
-    (paramName: keyof T, newValue: ParamValue, replace: boolean = true) => {
+    (
+      newParams: Record<keyof T, string | string[]>,
+      replace: boolean = true
+    ) => {
       const params = new URLSearchParams(searchParams.toString());
-      params.delete(String(paramName));
-      if (Array.isArray(newValue)) {
-        newValue.forEach((item) =>
-          params.append(String(paramName), item.toString())
-        );
-      } else {
-        params.append(String(paramName), newValue.toString());
-      }
+
+      Object.keys(newParams).forEach((paramName) => {
+        params.delete(String(paramName));
+        const newValue = newParams[paramName];
+        if (Array.isArray(newValue)) {
+          newValue.forEach((item) =>
+            params.append(String(paramName), item.toString())
+          );
+        } else {
+          params.append(String(paramName), newValue.toString());
+        }
+      });
+
       const newSearch = params.toString();
       const href = `${window.location.pathname}${
         newSearch ? `?${newSearch}` : ""
