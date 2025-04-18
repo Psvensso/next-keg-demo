@@ -1,4 +1,3 @@
-"use client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
 
@@ -17,7 +16,7 @@ function useClientSearchParams<T extends State>(
   initialState: T
 ): readonly [
   Record<keyof T, ParamValue>,
-  (newParams: Record<keyof T, string | string[]>) => void
+  (newParams: Record<keyof T, string | string[]>, replace?: boolean) => void
 ] {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -52,7 +51,7 @@ function useClientSearchParams<T extends State>(
         newSearch ? `?${newSearch}` : ""
       }`;
 
-      //For faster ui so we dont have to wait for server params.
+      //For faster ui so we do not have to wait for server params.
       setValue(
         getValues(newSearch.toString(), initialState) as Record<
           keyof T,
