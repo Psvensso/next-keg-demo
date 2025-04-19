@@ -12,7 +12,7 @@ export interface SearchResultProps {
 export const SearchResult = async ({
   category,
   page = "1",
-  pageSize = "10",
+  pageSize = "20",
 }: SearchResultProps) => {
   const categories = Array.isArray(category)
     ? category
