@@ -1,7 +1,7 @@
 import { FilterForm } from "@/components/Filters/FilterForm/FilterForm";
 import { SaveFilterBtn } from "@/components/Filters/SaveFilterBtn/SaveFilterBtn";
 import { SearchResult } from "@/components/SearchResult/SearchResult";
-import { FilterParamsRecord } from "@/db/repos/filtersRepo";
+import { FilterParamsRecord } from "@/db/filterTypes";
 import { Box, Flex } from "@chakra-ui/react";
 import { Suspense } from "react";
 
@@ -26,7 +26,7 @@ export default async function Home(p: {
             base: 250,
           }}
         >
-          <SaveFilterBtn searchParams={searchParams} />
+          <SaveFilterBtn  />
           <FilterForm />
         </Box>
       </Suspense>

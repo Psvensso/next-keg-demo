@@ -1,55 +1,26 @@
-import { createFilter, FilterParamsRecord } from "@/db/repos/filtersRepo";
-import { Button, Flex, Input, Popover, Portal } from "@chakra-ui/react";
+import { createFilter } from "@/db/repos/filtersRepo";
+import { SaveFilterPopover } from "./SaveFilterPopover";
 
-export const SaveFilterBtn = async ({
-  searchParams,
-}: {
-  searchParams: FilterParamsRecord;
-}) => {
-  const searchParamsAsString = JSON.stringify(searchParams);
-
+export const SaveFilterBtn = async () => {
   const serverActionCreateFilter = async (formData: FormData) => {
     "use server";
     const filterName = formData.get("filterName");
-    if (!filterName || typeof filterName !== "string") {
+    const filterValue = formData.get("filterValue");
+
+    if (
+      !filterValue ||
+      typeof filterValue !== "string" ||
+      !filterName ||
+      typeof filterName !== "string"
+    ) {
       throw new Error("Bad name"); //Should never, its required
     }
 
-    await createFilter(filterName, searchParamsAsString);
+    // Sanitize inputs to prevent XSS attacks
+
+    await createFilter(filterName, filterValue);
+    return { success: true };
   };
 
-  return (
-    <Popover.Root>
-      <Popover.Trigger asChild>
-        <Button size="sm" variant="outline">
-          Click me
-        </Button>
-      </Popover.Trigger>
-      <Portal>
-        <Popover.Positioner>
-          <Popover.Content>
-            <Popover.Arrow />
-            <Popover.Body>
-              <form action={serverActionCreateFilter}>
-                <Popover.Title fontWeight="medium">
-                  Save filter as
-                </Popover.Title>
-                <Flex gap="6px">
-                  <Input
-                    name="filterName"
-                    placeholder="Filter name"
-                    size="sm"
-                    required
-                  />
-                  <Button type="submit" size="sm" variant="outline">
-                    Save
-                  </Button>
-                </Flex>
-              </form>
-            </Popover.Body>
-          </Popover.Content>
-        </Popover.Positioner>
-      </Portal>
-    </Popover.Root>
-  );
+  return <SaveFilterPopover serverAction={serverActionCreateFilter} />;
 };

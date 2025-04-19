@@ -3,11 +3,6 @@ import prismaClient from "../prismaClient";
 
 const HARDCODED_USER_ID = "ME";
 
-export const okFilterParams = {
-    category: true
-};
-
-export type FilterParamsRecord = Record<keyof typeof okFilterParams, string|string[]>
 
 export async function getFilters() {
   "use cache";
@@ -29,6 +24,7 @@ export async function getFilterById(filterId: string) {
 
 export async function createFilter(name: string, filter: string) {
   "use server";
+  
   const newFilter = await prismaClient.courseFilter.create({
     data: {
       userId: HARDCODED_USER_ID,
