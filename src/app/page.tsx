@@ -3,16 +3,14 @@ import { SearchResult } from "@/components/SearchResult/SearchResult";
 import { Box, Flex } from "@chakra-ui/react";
 import { Suspense } from "react";
 
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: {
+export default async function Home(p: {
+  searchParams: Promise<{
     category?: string | string[];
     page?: string;
     pageSize?: string;
-  };
+  }>;
 }) {
-  const params = await searchParams;
+  const searchParams = await p.searchParams;
   return (
     <Flex>
       <Suspense fallback="...">
@@ -33,9 +31,9 @@ export default async function Home({
       <Box flex="1" overflow="auto">
         <Suspense fallback="Loading courses....">
           <SearchResult
-            category={params.category}
-            page={params.page}
-            pageSize={params.pageSize}
+            category={searchParams.category}
+            page={searchParams.page}
+            pageSize={searchParams.pageSize}
           />
         </Suspense>
       </Box>
