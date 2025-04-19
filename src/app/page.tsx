@@ -1,4 +1,4 @@
-import { Filters } from "@/components/Filters/Filters";
+import { FilterForm } from "@/components/Filters/FilterForm/FilterForm";
 import { SearchResult } from "@/components/SearchResult/SearchResult";
 import { Box, Flex } from "@chakra-ui/react";
 import { Suspense } from "react";
@@ -25,7 +25,7 @@ export default async function Home(p: {
             base: 250,
           }}
         >
-          <Filters />
+          <FilterForm />
         </Box>
       </Suspense>
       <Box flex="1" overflow="auto">

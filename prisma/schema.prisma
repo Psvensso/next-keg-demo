@@ -38,7 +38,7 @@ model FavoriteCourse {
   @@map("favorite_courses")
 }
 
-model CourseFilters {
+model CourseFilter {
   id        String   @id @default(uuid())
   userId    String
   filter    String

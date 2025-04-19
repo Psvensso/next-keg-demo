@@ -22,7 +22,7 @@ CREATE TABLE "favorite_courses" (
 );
 
 -- CreateTable
-CREATE TABLE "CourseFilters" (
+CREATE TABLE "CourseFilter" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "userId" TEXT NOT NULL,
     "filter" TEXT NOT NULL,

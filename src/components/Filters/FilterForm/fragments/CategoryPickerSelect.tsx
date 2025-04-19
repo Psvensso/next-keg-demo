@@ -1,5 +1,4 @@
 "use client";
-
 import {
   createListCollection,
   Portal,
@@ -9,19 +8,17 @@ import {
 import { useMemo } from "react";
 
 import { useAsync } from "react-use";
-import { useFiltersClientContext } from "../useFiltersClient";
+import { useFilterFormContext } from "../useFilterForm";
 
 interface Category {
   category: string;
 }
 
 const CategoryPickerSelect = () => {
-  "use client";
-
   const {
     filterState: { category },
     updateFilterValue,
-  } = useFiltersClientContext();
+  } = useFilterFormContext();
 
   const optionsState = useAsync(async (): Promise<Category[]> => {
     const response = await fetch("/api/courseMeta?type=categories");
