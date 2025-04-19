@@ -19,7 +19,7 @@ export const FavoriteStar = async (p: TProps) => {
 
   return (
     <form action={doActionToggleFavorite}>
-      <Tooltip content={`${isFavorite ? "Add" : "Remove"} favorite`}>
+      <Tooltip content={`${isFavorite ? "Remove" : "Add"} favorite`}>
         <Button variant="plain" type="submit" colorPalette="teal">
           {isFavorite ? <FaStar /> : <FaRegStar />}
         </Button>

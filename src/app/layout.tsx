@@ -1,7 +1,8 @@
-import { FavoritesCount } from "@/components/Favorites/FavoritesCount";
+import { FavoritesButton } from "@/components/Favorites/FavoritesButton";
 import { Provider } from "@/components/ui/provider";
-import { Box, Container, Theme } from "@chakra-ui/react";
+import { Box, Button, Container, Theme } from "@chakra-ui/react";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
@@ -36,7 +37,12 @@ export default function RootLayout({
                 display="flex"
                 alignItems="center"
               >
-                Im a header and you have <FavoritesCount /> favorites.
+                <Link href={"/"} style={{ textDecoration: "none" }}>
+                  <Button variant="outline" size="sm">
+                    Home
+                  </Button>
+                </Link>
+                <FavoritesButton to="/favorites" />
               </Container>
             </Box>
             <Suspense>
