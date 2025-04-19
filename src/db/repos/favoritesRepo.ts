@@ -56,6 +56,6 @@ export async function toggleFavorite(courseId: string) {
     });
   }
 
-  revalidateTag("favorites");
-  revalidateTag("favorite-" + courseId);
+  revalidateTag("favorites-"+HARDCODED_USER_ID);
+  revalidateTag("favorite-" + courseId + "-" + HARDCODED_USER_ID);
 }
