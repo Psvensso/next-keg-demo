@@ -37,3 +37,11 @@ model FavoriteCourse {
   @@unique([userId, courseId])
   @@map("favorite_courses")
 }
+
+model CourseFilters {
+  id        String   @id @default(uuid())
+  userId    String
+  filter    String
+  name      String  
+
+}

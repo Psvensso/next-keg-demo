@@ -1,5 +1,5 @@
 import CourseCard from "@/components/CourseCard";
-import { FavoriteStar } from "@/components/Favorites/FavoriteStar";
+import { FavoriteStar } from "@/components/Favorites/FavoriteStar/FavoriteStar";
 import prismaClient from "@/utils/prisma/prismaClient";
 import { Box, Flex } from "@chakra-ui/react";
 

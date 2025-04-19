@@ -1,4 +1,4 @@
-import { FavoriteStar } from "@/components/Favorites/FavoriteStar";
+import { FavoriteStar } from "@/components/Favorites/FavoriteStar/FavoriteStar";
 import prismaClient from "@/utils/prisma/prismaClient";
 import { Suspense } from "react";
 

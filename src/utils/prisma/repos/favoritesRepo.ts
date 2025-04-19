@@ -26,7 +26,6 @@ export async function getFavorite(courseId: string) {
 }
 
 export async function toggleFavorite(courseId: string) {
-  console.log("Toggeling favorite");
   // Check if the course is already favorited by the user
   const existingFavorite = await prismaClient.favoriteCourse.findUnique({
     where: {
@@ -36,7 +35,6 @@ export async function toggleFavorite(courseId: string) {
       },
     },
   });
-  console.log(existingFavorite);
 
   if (existingFavorite) {
     // If it already exists, delete it (unfavorite)

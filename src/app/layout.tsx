@@ -1,4 +1,4 @@
-import { FavoritesButton } from "@/components/Favorites/FavoritesButton";
+import { FavoritesNavBtn } from "@/components/Favorites/FavoritesNavBtn";
 import { Provider } from "@/components/ui/provider";
 import { Box, Button, Container, Theme } from "@chakra-ui/react";
 import type { Metadata } from "next";
@@ -42,7 +42,7 @@ export default function RootLayout({
                     Home
                   </Button>
                 </Link>
-                <FavoritesButton to="/favorites" />
+                <FavoritesNavBtn to="/favorites" />
               </Container>
             </Box>
             <Suspense>
