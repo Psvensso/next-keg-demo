@@ -2,6 +2,7 @@ import { PrismaClient } from "@/utils/generated/prisma/client";
 import csv from "csv-parser";
 import * as fs from "fs";
 import * as path from "path";
+import stripBom from "strip-bom-stream";
 import { fileURLToPath } from "url";
 
 //Makes a url safe slug name from a course title
@@ -28,7 +29,12 @@ async function seedDatabase() {
 
   return new Promise((resolve, reject) => {
     fs.createReadStream(filePath)
-      .pipe(csv({ separator: ";" }))
+      .pipe(stripBom())
+      .pipe(
+        csv({
+          separator: ";",
+        })
+      )
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .on("data", async (row: any) => {
         try {
@@ -44,6 +50,7 @@ async function seedDatabase() {
 
           await prisma.course.create({
             data: {
+              id: row.CourseId,
               instituteName: row.InstituteName,
               instituteNameSlug,
               courseName: row.CourseName,

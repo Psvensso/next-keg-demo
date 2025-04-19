@@ -13,7 +13,7 @@ datasource db {
 }
 
 model Course {
-  id             String   @id @default(uuid())
+  id             String   @id
   instituteName  String
   instituteNameSlug String
   courseName     String
