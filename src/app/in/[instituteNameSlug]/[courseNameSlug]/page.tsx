@@ -1,5 +1,5 @@
 import { FavoriteStar } from "@/components/Favorites/FavoriteStar/FavoriteStar";
-import prismaClient from "@/utils/prisma/prismaClient";
+import prismaClient from "@/db/prismaClient";
 import { Suspense } from "react";
 
 type TProps = {

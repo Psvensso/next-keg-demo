@@ -1,4 +1,4 @@
-import { Course } from "@/utils/prisma/generated";
+import { Course } from "@/db/generated";
 import { Badge, Box, Card, HStack, Text } from "@chakra-ui/react";
 import Link from "next/link";
 

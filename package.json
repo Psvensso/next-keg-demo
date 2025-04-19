@@ -9,7 +9,7 @@
     "lint": "next lint",
     "db:seed": "tsx ./prisma/seed/seed.ts",
     "db:studio": "npx prisma studio --schema=prisma/schema.prisma",
-    "db:reset": "rimraf prisma/dev.db && rimraf prisma/migrations && rimraf src/utils/prisma/generated/ && prisma migrate dev --name init --schema=prisma/schema.prisma && npm run db:seed"
+    "db:reset": "rimraf prisma/dev.db && rimraf prisma/migrations && rimraf src/db/generated/ && prisma migrate dev --name init --schema=prisma/schema.prisma && npm run db:seed"
   },
   "dependencies": {
     "@chakra-ui/react": "^3.16.0",

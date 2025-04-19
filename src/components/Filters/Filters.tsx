@@ -1,4 +1,4 @@
-import prismaClient from "@/utils/prisma/prismaClient";
+import prismaClient from "@/db/prismaClient";
 import { FiltersClient } from "./client/FiltersClient";
 
 export const Filters = async () => {

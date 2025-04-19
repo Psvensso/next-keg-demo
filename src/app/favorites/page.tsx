@@ -1,6 +1,6 @@
 import CourseCard from "@/components/CourseCard";
 import { FavoriteStar } from "@/components/Favorites/FavoriteStar/FavoriteStar";
-import prismaClient from "@/utils/prisma/prismaClient";
+import prismaClient from "@/db/prismaClient";
 import { Box, Flex } from "@chakra-ui/react";
 
 export default async function FavoritesPage() {

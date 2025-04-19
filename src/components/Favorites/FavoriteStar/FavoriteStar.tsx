@@ -1,7 +1,4 @@
-import {
-  getFavorite,
-  toggleFavorite,
-} from "@/utils/prisma/repos/favoritesRepo";
+import { getFavorite, toggleFavorite } from "@/db/repos/favoritesRepo";
 import { FavoriteStarForm } from "./fragments/FavoriteStarForm";
 
 /** Server component loading state and the initial data */

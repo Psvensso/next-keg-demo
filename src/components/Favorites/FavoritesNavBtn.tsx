@@ -1,4 +1,4 @@
-import { getFavorites } from "@/utils/prisma/repos/favoritesRepo";
+import { getFavorites } from "@/db/repos/favoritesRepo";
 import { Button } from "@chakra-ui/react";
 import Link from "next/link";
 

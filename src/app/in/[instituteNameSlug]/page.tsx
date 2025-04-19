@@ -1,4 +1,4 @@
-import prismaClient from "@/utils/prisma/prismaClient";
+import prismaClient from "@/db/prismaClient";
 import Link from "next/link";
 
 type TProps = {

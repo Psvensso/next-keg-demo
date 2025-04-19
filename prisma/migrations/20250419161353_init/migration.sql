@@ -21,5 +21,13 @@ CREATE TABLE "favorite_courses" (
     CONSTRAINT "favorite_courses_courseId_fkey" FOREIGN KEY ("courseId") REFERENCES "courses" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
+-- CreateTable
+CREATE TABLE "CourseFilters" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "userId" TEXT NOT NULL,
+    "filter" TEXT NOT NULL,
+    "name" TEXT NOT NULL
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "favorite_courses_userId_courseId_key" ON "favorite_courses"("userId", "courseId");
