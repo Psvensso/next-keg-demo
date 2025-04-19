@@ -33,7 +33,6 @@ export const SaveFilterPopover = ({ serverAction }: SaveFilterPopoverProps) => {
       setOpen(false);
     }
   };
-  console.log(searchParamsAsString);
   return (
     <Popover.Root open={open} onOpenChange={handleOpenChange}>
       <Popover.Trigger asChild>
