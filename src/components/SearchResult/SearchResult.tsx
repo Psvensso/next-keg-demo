@@ -1,6 +1,6 @@
-import prisma from "@/utils/prisma";
+import prismaClient from "@/utils/prisma/prismaClient";
 import { Box } from "@chakra-ui/react";
-import CourseSearchResultItem from "./fragments/CourseSearchResultItem";
+import CourseCard from "../CourseCard";
 import { SearchResultPagination } from "./fragments/SearchResultPagination";
 
 export interface SearchResultProps {
@@ -27,21 +27,21 @@ export const SearchResult = async ({
   const skip = (currentPage - 1) * itemsPerPage;
 
   // Get courses with pagination
-  const courses = await prisma.course.findMany({
+  const courses = await prismaClient.course.findMany({
     where: { category: { in: categories.length > 0 ? categories : undefined } },
     skip,
     take: itemsPerPage,
   });
 
   // Get total count for pagination
-  const totalCount = await prisma.course.count({
+  const totalCount = await prismaClient.course.count({
     where: { category: { in: categories.length > 0 ? categories : undefined } },
   });
 
   return (
     <Box flex="1" display="flex" flexDir="column" m="16px" gap="8px">
       {courses?.map((c) => (
-        <CourseSearchResultItem course={c} key={c.id} />
+        <CourseCard course={c} key={c.id} />
       ))}
 
       <Box mt={4} display="flex" justifyContent="center">

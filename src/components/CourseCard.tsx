@@ -1,7 +1,9 @@
-import { Course } from "@/utils/generated/prisma/client";
-import { Badge, Box, Card, HStack, Image, Text } from "@chakra-ui/react";
+import { FavoriteStar } from "@/components/Favorites/FavoriteStar";
+import { Course } from "@/utils/prisma/generated";
+import { Badge, Box, Card, HStack, Text } from "@chakra-ui/react";
+import { Suspense } from "react";
 
-const CourseSearchResultItem = ({
+const CourseCard = ({
   course: {
     courseName,
     instituteName,
@@ -10,19 +12,13 @@ const CourseSearchResultItem = ({
     location,
     language,
     startDate,
+    id,
   },
 }: {
   course: Course;
 }) => {
   return (
     <Card.Root flexDirection="row" overflow="hidden" mb={4} boxShadow="sm">
-      <Image
-        objectFit="cover"
-        maxW="120px"
-        src="/file.svg"
-        alt="Course"
-        p={4}
-      />
       <Box flex="1">
         <Card.Body>
           <Card.Title fontSize="lg" mb="1">
@@ -46,10 +42,13 @@ const CourseSearchResultItem = ({
             <Badge colorScheme="blue">{category}</Badge>
             <Badge colorScheme="green">{deliveryMethod}</Badge>
           </HStack>
+          <Suspense>
+            <FavoriteStar courseId={id} />
+          </Suspense>
         </Card.Body>
       </Box>
     </Card.Root>
   );
 };
 
-export default CourseSearchResultItem;
+export default CourseCard;

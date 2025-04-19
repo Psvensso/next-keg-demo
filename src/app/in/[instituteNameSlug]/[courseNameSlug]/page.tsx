@@ -1,11 +1,11 @@
-import prisma from "@/utils/prisma";
+import prismaClient from "@/utils/prisma/prismaClient";
 
 type TProps = {
   params: Promise<{ courseNameSlug: string; instituteNameSlug: string }>;
 };
 
 export async function generateStaticParams() {
-  const courses = await prisma.course.findMany({
+  const courses = await prismaClient.course.findMany({
     select: {
       courseNameSlug: true,
       instituteNameSlug: true,
@@ -22,7 +22,7 @@ export async function generateStaticParams() {
 
 const CoursePage = async ({ params }: TProps) => {
   const where = await params;
-  const course = await prisma.course.findFirstOrThrow({
+  const course = await prismaClient.course.findFirstOrThrow({
     where,
     orderBy: {
       category: "asc",

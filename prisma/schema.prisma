@@ -3,7 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/utils/generated/prisma/client"
+  output   = "../src/utils/prisma/generated/"
   previewFeatures = ["metrics"]
 }
 
@@ -23,5 +23,17 @@ model Course {
   location       String
   language       String?
   startDate      DateTime
+  favorites      FavoriteCourse[]
   @@map("courses")
+}
+
+model FavoriteCourse {
+  id        String   @id @default(uuid())
+  userId    String
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id])
+  createdAt DateTime @default(now())
+  
+  @@unique([userId, courseId])
+  @@map("favorite_courses")
 }

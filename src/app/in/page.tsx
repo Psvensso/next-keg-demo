@@ -1,8 +1,8 @@
-import prisma from "@/utils/prisma";
+import prismaClient from "@/utils/prisma/prismaClient";
 import Link from "next/link";
 
 const InstitutePage = async () => {
-  const institutes = await prisma.course.findMany({
+  const institutes = await prismaClient.course.findMany({
     select: {
       instituteName: true,
       instituteNameSlug: true,

@@ -1,5 +1,5 @@
-import useClientSearchParamState from "@/utils/client/useClientSearchParamState";
 import { createContext } from "@/utils/createContext";
+import useClientSearchParamState from "@/utils/hooks/useClientSearchParamState";
 
 export const useFiltersClient = () => {
   const [filterState, updateFilterValue] = useClientSearchParamState({

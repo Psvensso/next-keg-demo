@@ -1,4 +1,4 @@
-import prisma from "@/utils/prisma";
+import prismaClient from "@/utils/prisma/prismaClient";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
@@ -8,7 +8,7 @@ export async function GET(request: Request) {
 
   switch (type) {
     case "categories":
-      const categories = await prisma.course.findMany({
+      const categories = await prismaClient.course.findMany({
         where: {
           category: {
             contains: search,
@@ -21,7 +21,7 @@ export async function GET(request: Request) {
       return NextResponse.json(categories);
 
     case "institutes":
-      const institutes = await prisma.course.findMany({
+      const institutes = await prismaClient.course.findMany({
         where: {
           instituteName: {
             contains: search,

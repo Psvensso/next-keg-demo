@@ -1,3 +1,4 @@
+import { FavoritesCount } from "@/components/Favorites/FavoritesCount";
 import { Provider } from "@/components/ui/provider";
 import { Box, Container, Theme } from "@chakra-ui/react";
 import type { Metadata } from "next";
@@ -35,7 +36,7 @@ export default function RootLayout({
                 display="flex"
                 alignItems="center"
               >
-                Im a header
+                Im a header and you have <FavoritesCount /> favorites.
               </Container>
             </Box>
             <Suspense>

@@ -2,7 +2,7 @@
 
 # dependencies
 /node_modules
-src/utils/generated
+src/utils/prisma/generated/
 
 # testing
 /coverage

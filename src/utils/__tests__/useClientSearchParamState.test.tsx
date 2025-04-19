@@ -1,6 +1,6 @@
 import { act, renderHook } from "@testing-library/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import useClientSearchParams from "../useClientSearchParamState";
+import useClientSearchParams from "../hooks/useClientSearchParamState";
 
 // Mock the Next.js router and search params
 jest.mock("next/navigation", () => ({

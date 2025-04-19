@@ -1,4 +1,4 @@
-import prisma from "@/utils/prisma";
+import prismaClient from "@/utils/prisma/prismaClient";
 import Link from "next/link";
 
 type TProps = {
@@ -6,7 +6,7 @@ type TProps = {
 };
 
 export async function generateStaticParams() {
-  const courses = await prisma.course.findMany({
+  const courses = await prismaClient.course.findMany({
     select: {
       instituteNameSlug: true,
     },
@@ -23,7 +23,7 @@ export async function generateStaticParams() {
 const InstitutePage = async ({ params }: TProps) => {
   const { instituteNameSlug } = await params;
 
-  const coursesByInst = await prisma.course.findMany({
+  const coursesByInst = await prismaClient.course.findMany({
     where: {
       instituteNameSlug: decodeURIComponent(instituteNameSlug),
     },
