@@ -1,5 +1,5 @@
 import { createFilter } from "@/db/repos/filtersRepo";
-import { SaveFilterPopover } from "./SaveFilterPopover";
+import { SaveFilterPopover } from "./fragments/SaveFilterPopover";
 
 export const SaveFilterBtn = async () => {
   const serverActionCreateFilter = async (formData: FormData) => {
@@ -9,11 +9,12 @@ export const SaveFilterBtn = async () => {
 
     if (
       !filterValue ||
+      String(filterName).length > 30 ||
       typeof filterValue !== "string" ||
       !filterName ||
       typeof filterName !== "string"
     ) {
-      throw new Error("Bad name"); //Should never, its required
+      throw new Error("Bad name"); //Should never, its checked on form
     }
 
     // Sanitize inputs to prevent XSS attacks

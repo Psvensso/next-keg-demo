@@ -1,11 +1,14 @@
 import { createContext } from "@/utils/createContext";
 import useClientSearchParamState from "@/utils/hooks/useClientSearchParamState";
 
+const defaultState = {
+  category: [],
+  page: "1",
+};
+
 export const useFilterForm = () => {
-  const [filterState, updateFilterValue] = useClientSearchParamState({
-    category: [],
-    page: "1",
-  });
+  const [filterState, updateFilterValue] =
+    useClientSearchParamState(defaultState);
 
   return { filterState, updateFilterValue };
 };

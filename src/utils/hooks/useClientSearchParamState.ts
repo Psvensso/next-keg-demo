@@ -1,5 +1,5 @@
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 
 type State = Record<string, string | string[]>;
 const getValues = (search: string, initialState: State) => {
@@ -19,13 +19,12 @@ function useClientSearchParams<T extends State>(
   (newParams: Record<keyof T, string | string[]>, replace?: boolean) => void
 ] {
   const searchParams = useSearchParams();
+  const searchParamsValues = getValues(
+    searchParams.toString(),
+    initialState
+  ) as Record<keyof T, ParamValue>;
+
   const router = useRouter();
-  const [value, setValue] = useState(
-    getValues(searchParams.toString(), initialState) as Record<
-      keyof T,
-      ParamValue
-    >
-  );
 
   const updateValue = useCallback(
     (
@@ -50,27 +49,19 @@ function useClientSearchParams<T extends State>(
       const href = `${window.location.pathname}${
         newSearch ? `?${newSearch}` : ""
       }`;
-
-      //For faster ui so we do not have to wait for server params.
-      setValue(
-        getValues(newSearch.toString(), initialState) as Record<
-          keyof T,
-          ParamValue
-        >
-      );
-
-      //This will cause a nav to the server.
-      //Thats ok for our filter use-case in this demo but... nah.. feels like it should be more controlled
       if (replace) {
         router.replace(href);
       } else {
         router.push(href);
       }
     },
-    [searchParams, router, initialState]
+    [searchParams, router]
   );
 
-  return [value as Record<keyof T, ParamValue>, updateValue] as const;
+  return [
+    searchParamsValues as Record<keyof T, ParamValue>,
+    updateValue,
+  ] as const;
 }
 
 export default useClientSearchParams;

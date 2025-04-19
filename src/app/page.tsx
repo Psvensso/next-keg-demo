@@ -1,4 +1,5 @@
 import { FilterForm } from "@/components/Filters/FilterForm/FilterForm";
+import { SavedFiltersSelector } from "@/components/Filters/SavedFiltersSelector/SavedFiltersSelector";
 import { SaveFilterBtn } from "@/components/Filters/SaveFilterBtn/SaveFilterBtn";
 import { SearchResult } from "@/components/SearchResult/SearchResult";
 import { FilterParamsRecord } from "@/db/filterTypes";
@@ -25,14 +26,22 @@ export default async function Home(p: {
             lg: 350,
             base: 250,
           }}
-        >
+        > 
+          <Box border="1px solid gray"
+        borderRadius="1em"
+        margin="12px"
+        p="16px 6px">
+          <Flex gap="6px">
           <SaveFilterBtn  />
+          <SavedFiltersSelector/>
+          </Flex>
           <FilterForm />
+          </Box>
         </Box>
       </Suspense>
       <Box flex="1" overflow="auto">
         <Suspense fallback="Loading courses....">
-          <SearchResult
+          <SearchResult 
             category={searchParams.category}
             page={searchParams.page}
             pageSize={searchParams.pageSize}

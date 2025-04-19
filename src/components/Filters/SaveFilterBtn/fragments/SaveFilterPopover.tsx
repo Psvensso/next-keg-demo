@@ -1,5 +1,4 @@
 "use client";
-
 import { okFilterParams } from "@/db/filterTypes";
 import { Button, Flex, Input, Popover, Portal } from "@chakra-ui/react";
 import { useSearchParams } from "next/navigation";
@@ -13,14 +12,15 @@ export const SaveFilterPopover = ({ serverAction }: SaveFilterPopoverProps) => {
   const params = useSearchParams();
   const [open, setOpen] = useState(false);
   const initialFocusRef = useRef(null);
-
   const searchParamsAsString = useMemo(() => {
-    return Object.keys(okFilterParams)
-      .reduce((acc, okKey) => {
-        params.getAll(okKey).forEach((val) => acc.set(okKey, val));
-        return acc;
-      }, new URLSearchParams())
-      .toString();
+    const newParams = Object.keys(okFilterParams).reduce((acc, okKey) => {
+      params.getAll(okKey).forEach((val) => {
+        acc.append(okKey, val);
+      });
+
+      return acc;
+    }, new URLSearchParams());
+    return newParams.toString();
   }, [params]);
 
   const handleOpenChange = (details: { open: boolean }) => {
@@ -33,12 +33,12 @@ export const SaveFilterPopover = ({ serverAction }: SaveFilterPopoverProps) => {
       setOpen(false);
     }
   };
-
+  console.log(searchParamsAsString);
   return (
     <Popover.Root open={open} onOpenChange={handleOpenChange}>
       <Popover.Trigger asChild>
-        <Button size="sm" variant="outline">
-          Click me
+        <Button disabled={!searchParamsAsString} size="2xs" variant="outline">
+          Save filter
         </Button>
       </Popover.Trigger>
       <Portal>
@@ -48,7 +48,7 @@ export const SaveFilterPopover = ({ serverAction }: SaveFilterPopoverProps) => {
             <Popover.Body>
               <form action={handleSubmit}>
                 <Popover.Title fontWeight="medium">
-                  Save filter as
+                  Save current filter as
                 </Popover.Title>
                 <Flex gap="6px">
                   <input
@@ -59,6 +59,8 @@ export const SaveFilterPopover = ({ serverAction }: SaveFilterPopoverProps) => {
                   <Input
                     ref={initialFocusRef}
                     name="filterName"
+                    maxLength={30}
+                    pattern=".{1,30}"
                     placeholder="Filter name"
                     size="sm"
                     required

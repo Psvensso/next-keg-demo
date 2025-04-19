@@ -8,13 +8,7 @@ export const FilterForm = () => {
 
   return (
     <FilterFormProvider value={ctx}>
-      <Flex
-        direction="column"
-        border="1px solid gray"
-        borderRadius="1em"
-        margin="12px"
-        p="16px 6px"
-      >
+      <Flex direction="column">
         <CategoryPickerSelect />
       </Flex>
     </FilterFormProvider>
