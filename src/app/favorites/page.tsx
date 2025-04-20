@@ -1,5 +1,4 @@
-import CourseCard from "@/components/CourseCard";
-import { FavoriteStar } from "@/components/Favorites/FavoriteStar/FavoriteStar";
+import { FavoritesList } from "@/components/Favorites/FavoritesList";
 import prismaClient from "@/db/prismaClient";
 import { Box, Flex } from "@chakra-ui/react";
 import { RemoveAllFavoritesBtn } from "../../components/Favorites/RemoveAllFavoritesBtn";
@@ -33,17 +32,7 @@ export default async function FavoritesPage() {
       <Flex justifyContent="flex-end">
         <RemoveAllFavoritesBtn />
       </Flex>
-      {favoriteCourses?.map((c) => (
-        <Flex key={c.id}>
-          <Flex direction="column" m="12px" alignContent="center">
-            Remove
-            <FavoriteStar courseId={c.id} />
-          </Flex>
-          <Box flex="1">
-            <CourseCard course={c} />
-          </Box>
-        </Flex>
-      ))}
+      <FavoritesList courses={favoriteCourses} />
     </Box>
   );
 }
