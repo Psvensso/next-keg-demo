@@ -1,36 +1,31 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
-## Getting Started
-
-First, run the development server:
+# Getting Started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install && npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Known limitations / Considerations
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Domain
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Data normalization is not really a thing in this test repo, im treating the dev.db more as a readmodel, but then adding the applications and filters in the same DB for simplicity, these should probably not be in the same data store and should probably me normalized better.
 
-## Learn More
+### Next caching
 
-To learn more about Next.js, take a look at the following resources:
+Storing user data like that favorites in next cache can of course be debated, i did not want to implement a larger client side datastore, guess i could have used a simple zustand store for this. Anyway, now i implemented is using server components and the experimental cache tag system. In a real world scenario i guess some of this data would be better of in the client and implementing more in client/api, like the favorites and the backoffice for managing applications.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Tests
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Im only creating a few unit tests and main flow e2e, im not implementing a full PO test for this simple project with the time assigned.
 
-## Deploy on Vercel
+### Error handling
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The error handling is not super nice for users, were just catching on the error routes. This could of course be improved a lot by having smaller boundaries and other error boundaries as well.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Inconsistent growl and user feedback
+
+Im using growl on a few places and in some not, user feedback should be better aligned but i wanted to try out more ways to do the server actions and working closely with next so i did not implement the full user experience and feedbacks everywhere. I though it would be nice to have it on the application form at least.
+
+### Form validations
+
+If more time was available a more robust zod validation should have been implemented. I wanted to use as standard as possible and use the form actions as pure as possible. There are some bugs or limitations in the 15 form handling that i did not have time to solve. If the server is offline for example and the action fails when submitting an application the data in the form is lost/reset, very annoying. https://github.com/vercel/next.js/issues/72949
