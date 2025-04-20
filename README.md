@@ -14,6 +14,10 @@ Data normalization is not really a thing in this test repo, im treating the dev.
 
 Storing user data like that favorites in next cache can of course be debated, i did not want to implement a larger client side datastore, guess i could have used a simple zustand store for this. Anyway, now i implemented is using server components and the experimental cache tag system. In a real world scenario i guess some of this data would be better of in the client and implementing more in client/api, like the favorites and the backoffice for managing applications.
 
+### Filters
+
+Should have added more filters but ran out of time, needed to do some improvement to make it scale better and the UI with this ssr is a bit clunky. So more client side interactions would have been needed here. I did not have time to implement better search controllers otherwise of course better UI would be needed here.
+
 ### Tests
 
 Im only creating a few unit tests and main flow e2e, im not implementing a full PO test for this simple project with the time assigned.

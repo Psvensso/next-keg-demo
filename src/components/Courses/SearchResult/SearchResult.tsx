@@ -1,23 +1,32 @@
+import { FilterParamsRecord } from "@/db/filterTypes";
 import prismaClient from "@/db/prismaClient";
 import { Box } from "@chakra-ui/react";
 import CourseListCard from "../CourseListCard";
 import { SearchResultPagination } from "./fragments/SearchResultPagination";
 
 export interface SearchResultProps {
-  category?: string | string[];
+  filterParams?: Partial<FilterParamsRecord>;
   page?: string;
   pageSize?: string;
 }
 
 export const SearchResult = async ({
-  category,
+  filterParams = {},
   page = "1",
   pageSize = "20",
 }: SearchResultProps) => {
+  const { category, institute } = filterParams;
+
   const categories = Array.isArray(category)
     ? category
     : category
     ? [category]
+    : [];
+
+  const institutes = Array.isArray(institute)
+    ? institute
+    : institute
+    ? [institute]
     : [];
 
   const currentPage = parseInt(page, 10);
@@ -28,14 +37,21 @@ export const SearchResult = async ({
 
   // Get courses with pagination
   const courses = await prismaClient.course.findMany({
-    where: { category: { in: categories.length > 0 ? categories : undefined } },
+    where: {
+      category: { in: categories.length > 0 ? categories : undefined },
+      instituteNameSlug: { in: institutes.length > 0 ? institutes : undefined },
+    },
     skip,
     take: itemsPerPage,
   });
 
   // Get total count for pagination
+  //Todo: Make this dry
   const totalCount = await prismaClient.course.count({
-    where: { category: { in: categories.length > 0 ? categories : undefined } },
+    where: {
+      category: { in: categories.length > 0 ? categories : undefined },
+      instituteName: { in: institutes.length > 0 ? institutes : undefined },
+    },
   });
 
   return (

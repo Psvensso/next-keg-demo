@@ -46,7 +46,7 @@ export default async function Home(p: {
       <Box flex="1" overflow="auto">
         <Suspense fallback="Loading courses....">
           <SearchResult
-            category={searchParams.category}
+            filterParams={searchParams}
             page={searchParams.page}
             pageSize={searchParams.pageSize}
           />

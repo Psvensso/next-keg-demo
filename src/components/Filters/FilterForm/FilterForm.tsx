@@ -12,7 +12,9 @@ export const FilterForm = () => {
     <FilterFormProvider value={ctx}>
       <VStack mt="12px" gap={2} align="stretch">
         <Link href="/">
-          <Button variant="subtle">Clear</Button>
+          <Button variant="subtle" size="2xs">
+            Clear
+          </Button>
         </Link>
         <CategoryPickerSelect />
         <InstitutePickerSelect />
