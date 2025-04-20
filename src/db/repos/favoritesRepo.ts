@@ -1,7 +1,7 @@
 import { unstable_cacheTag as cacheTag, revalidateTag } from "next/cache";
 import prismaClient from "../prismaClient";
+import { HARDCODED_USER_ID } from "./consts";
 
-const HARDCODED_USER_ID = "ME";
 const FAVORITES_TAG = "favorites-" + HARDCODED_USER_ID;
 const getCourseFavoriteTag = (courseId: string) =>
   `favorite-${courseId}-${HARDCODED_USER_ID}`;
