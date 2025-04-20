@@ -2,9 +2,13 @@ import { unstable_cacheTag as cacheTag, revalidateTag } from "next/cache";
 import prismaClient from "../prismaClient";
 
 const HARDCODED_USER_ID = "ME";
+const FAVORITES_TAG = "favorites-" + HARDCODED_USER_ID;
+const getCourseFavoriteTag = (courseId: string) =>
+  `favorite-${courseId}-${HARDCODED_USER_ID}`;
+
 export async function getFavorites() {
   "use cache";
-  cacheTag("favorites");
+  cacheTag(FAVORITES_TAG);
   return prismaClient.favoriteCourse.findMany({
     where: { userId: HARDCODED_USER_ID },
   });
@@ -12,7 +16,7 @@ export async function getFavorites() {
 
 export async function getFavorite(courseId: string) {
   "use cache";
-  cacheTag("favorite-" + courseId);
+  cacheTag(getCourseFavoriteTag(courseId));
   return (
     (await prismaClient.favoriteCourse.findUnique({
       where: {
@@ -56,6 +60,6 @@ export async function toggleFavorite(courseId: string) {
     });
   }
 
-  revalidateTag("favorites-"+HARDCODED_USER_ID);
-  revalidateTag("favorite-" + courseId + "-" + HARDCODED_USER_ID);
+  revalidateTag(FAVORITES_TAG);
+  revalidateTag(getCourseFavoriteTag(courseId));
 }

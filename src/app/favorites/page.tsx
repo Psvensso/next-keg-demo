@@ -15,7 +15,14 @@ export default async function FavoritesPage() {
   });
 
   return (
-    <Box flex="1" display="flex" flexDir="column" m="16px" gap="8px">
+    <Box
+      flex="1"
+      display="flex"
+      flexDir="column"
+      m="16px"
+      gap="8px"
+      data-testid="favorites-list"
+    >
       {favoriteCourses?.map((c) => (
         <Flex key={c.id}>
           <Flex direction="column" m="12px" alignContent="center">

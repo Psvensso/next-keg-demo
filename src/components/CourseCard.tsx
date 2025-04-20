@@ -23,6 +23,7 @@ const CourseCard = ({
       style={{ textDecoration: "none" }}
     >
       <Card.Root
+        data-testid="course-list-card"
         flexDirection="row"
         overflow="hidden"
         mb={4}
