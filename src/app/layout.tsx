@@ -45,6 +45,11 @@ export default function RootLayout({
                       Home
                     </Button>
                   </Link>
+                  <Link href={"/in"} style={{ textDecoration: "none" }}>
+                    <Button variant="ghost" size="sm">
+                      Catalogue
+                    </Button>
+                  </Link>
                   <FavoritesNavBtn to="/favorites" />
                   <Link
                     href={"/applications"}

@@ -9,7 +9,7 @@ const InstitutePage = async () => {
     },
     distinct: ["instituteNameSlug"],
     orderBy: {
-      category: "asc",
+      instituteName: "asc",
     },
   });
   return (
@@ -17,7 +17,6 @@ const InstitutePage = async () => {
       <ul>
         {institutes?.map((x) => (
           <li key={x.instituteNameSlug}>
-            Institute:{" "}
             <Link href={`/in/${x.instituteNameSlug}`}>{x.instituteName}</Link>
           </li>
         ))}

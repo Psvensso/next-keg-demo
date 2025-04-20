@@ -1,6 +1,7 @@
 import { NewApplicationCard } from "@/components/Applications/NewApplication/NewApplicationCard";
 import CourseDetailsCard from "@/components/Courses/CourseDetailsCard";
 import prismaClient from "@/db/prismaClient";
+import Link from "next/link";
 
 type TProps = {
   params: Promise<{ courseNameSlug: string; instituteNameSlug: string }>;
@@ -22,12 +23,12 @@ export async function generateStaticParams() {
 }
 
 const CoursePage = async ({ params }: TProps) => {
-  const paramValues = await params;
+  const { courseNameSlug, instituteNameSlug } = await params;
   const course = await prismaClient.course.findFirst({
     where: {
       AND: [
-        { courseNameSlug: paramValues.courseNameSlug },
-        { instituteNameSlug: paramValues.instituteNameSlug },
+        { courseNameSlug: courseNameSlug },
+        { instituteNameSlug: instituteNameSlug },
       ],
     },
     orderBy: {
@@ -41,6 +42,8 @@ const CoursePage = async ({ params }: TProps) => {
 
   return (
     <>
+      {"<"}{" "}
+      <Link href={`/in/${instituteNameSlug}`}>{course.instituteName}</Link>
       <CourseDetailsCard course={course} />
       <NewApplicationCard courseId={course.id} />
     </>

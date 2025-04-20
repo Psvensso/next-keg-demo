@@ -51,7 +51,6 @@ const CategoryPickerSelect = () => {
       collection={collection}
       value={arrayCategoryValue}
       onValueChange={(value) => {
-        //TODO: Implement e2e test that when i update a filter page should be reset to 1
         updateFilterValue({
           page: "1",
           category: value.value,

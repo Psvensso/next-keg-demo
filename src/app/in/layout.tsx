@@ -8,9 +8,7 @@ export default function Layout({
 }>) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <Container maxW="container.lg" py="8">
-        {children}
-      </Container>
+      <Container maxW="container.lg">{children}</Container>
     </Suspense>
   );
 }

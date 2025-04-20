@@ -1,4 +1,5 @@
 import prismaClient from "@/db/prismaClient";
+import { Heading } from "@chakra-ui/react";
 import Link from "next/link";
 
 type TProps = {
@@ -22,7 +23,6 @@ export async function generateStaticParams() {
 
 const InstitutePage = async ({ params }: TProps) => {
   const { instituteNameSlug } = await params;
-
   const coursesByInst = await prismaClient.course.findMany({
     where: {
       instituteNameSlug: decodeURIComponent(instituteNameSlug),
@@ -30,7 +30,7 @@ const InstitutePage = async ({ params }: TProps) => {
   });
   return (
     <div>
-      InstitutePage: {instituteNameSlug}
+      <Heading>{coursesByInst[0]?.instituteName}</Heading>
       <ul>
         {coursesByInst?.map((x) => (
           <li key={x.courseNameSlug}>
