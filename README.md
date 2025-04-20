@@ -28,4 +28,4 @@ Im using growl on a few places and in some not, user feedback should be better a
 
 ### Form validations
 
-If more time was available a more robust zod validation should have been implemented. I wanted to use as standard as possible and use the form actions as pure as possible. There are some bugs or limitations in the 15 form handling that i did not have time to solve. If the server is offline for example and the action fails when submitting an application the data in the form is lost/reset, very annoying. https://github.com/vercel/next.js/issues/72949
+I did a quite simple zod implementation on the application form, could have been structured better. There are some bugs or limitations in the 15 form handling that i did not have time to solve. If the server is offline for example and the action fails when submitting an application the data in the form is lost/reset, very annoying. https://github.com/vercel/next.js/issues/72949

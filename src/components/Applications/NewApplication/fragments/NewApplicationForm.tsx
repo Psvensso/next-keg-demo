@@ -2,6 +2,7 @@
 
 import { toaster } from "@/components/ui/toaster";
 import { submitApplication } from "@/db/repos/submitApplication";
+import { validateApplicationForm } from "@/utils/validation/applicationSchema";
 import {
   Box,
   Button,
@@ -23,28 +24,17 @@ export const NewApplicationForm = ({ courseId }: NewApplicationFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const formRef = useRef<HTMLFormElement>(null);
+
   const validateForm = (formData: FormData) => {
-    const newErrors: Record<string, string> = {};
-    const firstName = formData.get("firstName") as string;
-    const lastName = formData.get("lastName") as string;
-    const email = formData.get("email") as string;
+    formData.append("courseId", courseId);
 
-    if (!firstName?.trim()) {
-      newErrors.firstName = "First name is required";
+    const validationResult = validateApplicationForm(formData);
+    if (!validationResult.success) {
+      setErrors(validationResult.errors || {});
+      return false;
     }
-
-    if (!lastName?.trim()) {
-      newErrors.lastName = "Last name is required";
-    }
-
-    if (!email?.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = "Email is invalid";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+    setErrors({});
+    return true;
   };
 
   const handleSubmit = async (formData: FormData) => {
@@ -55,9 +45,6 @@ export const NewApplicationForm = ({ courseId }: NewApplicationFormProps) => {
     setIsSubmitting(true);
 
     try {
-      // Add the courseId to the form data
-      formData.append("courseId", courseId);
-
       const result = await submitApplication(formData);
 
       if (result.success) {
@@ -68,10 +55,15 @@ export const NewApplicationForm = ({ courseId }: NewApplicationFormProps) => {
 
         formRef.current?.reset();
       } else {
-        toaster.error({
-          title: "Error",
-          description: result.message,
-        });
+        // Handle server-side validation errors
+        if (result.errors) {
+          setErrors(result.errors);
+        } else {
+          toaster.error({
+            title: "Error",
+            description: result.message,
+          });
+        }
       }
     } catch (error) {
       console.error(error);
@@ -81,6 +73,12 @@ export const NewApplicationForm = ({ courseId }: NewApplicationFormProps) => {
       });
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const clearErrorOnChange = (field: string) => {
+    if (errors[field]) {
+      setErrors({ ...errors, [field]: "" });
     }
   };
 
@@ -112,9 +110,7 @@ export const NewApplicationForm = ({ courseId }: NewApplicationFormProps) => {
             <Input
               name="firstName"
               placeholder="Enter your first name"
-              onChange={() =>
-                errors.firstName && setErrors({ ...errors, firstName: "" })
-              }
+              onChange={() => clearErrorOnChange("firstName")}
             />
             {errors.firstName && (
               <Text color="red.500" fontSize="sm">
@@ -133,9 +129,7 @@ export const NewApplicationForm = ({ courseId }: NewApplicationFormProps) => {
             <Input
               name="lastName"
               placeholder="Enter your last name"
-              onChange={() =>
-                errors.lastName && setErrors({ ...errors, lastName: "" })
-              }
+              onChange={() => clearErrorOnChange("lastName")}
             />
             {errors.lastName && (
               <Text color="red.500" fontSize="sm">
@@ -155,7 +149,7 @@ export const NewApplicationForm = ({ courseId }: NewApplicationFormProps) => {
             name="email"
             type="email"
             placeholder="Enter your email"
-            onChange={() => errors.email && setErrors({ ...errors, email: "" })}
+            onChange={() => clearErrorOnChange("email")}
           />
           {errors.email && (
             <Text color="red.500" fontSize="sm">
@@ -163,23 +157,35 @@ export const NewApplicationForm = ({ courseId }: NewApplicationFormProps) => {
             </Text>
           )}
         </Field.Root>
-        <Field.Root>
+        <Field.Root invalid={!!errors.phone}>
           <Field.Label>Phone</Field.Label>
           <Input
             name="phone"
             placeholder="Enter your phone number (optional)"
+            onChange={() => clearErrorOnChange("phone")}
           />
+          {errors.phone && (
+            <Text color="red.500" fontSize="sm">
+              {errors.phone}
+            </Text>
+          )}
         </Field.Root>
-        <Field.Root>
+        <Field.Root invalid={!!errors.message}>
           <Field.Label>Additional Information</Field.Label>
           <Textarea
             name="message"
             placeholder="Tell us why you're interested in this course (optional)"
             rows={4}
+            onChange={() => clearErrorOnChange("message")}
           />
           <Field.HelperText>
             Share any relevant information about your background or interests
           </Field.HelperText>
+          {errors.message && (
+            <Text color="red.500" fontSize="sm">
+              {errors.message}
+            </Text>
+          )}
         </Field.Root>
         <Box>
           <Button

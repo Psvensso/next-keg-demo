@@ -1,28 +1,28 @@
 "use server";
 import prisma from "@/db/prismaClient";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { validateApplicationForm } from "@/utils/validation/applicationSchema";
+import { revalidateTag } from "next/cache";
 import { HARDCODED_USER_ID } from "./consts";
 
 export async function submitApplication(formData: FormData) {
-  // Validate the input data
-  const firstName = formData.get("firstName") as string;
-  const lastName = formData.get("lastName") as string;
-  const email = formData.get("email") as string;
-  const phone = formData.get("phone") as string;
-  const message = formData.get("message") as string;
-  const courseId = formData.get("courseId") as string;
+  // Use the shared Zod validation
+  const validationResult = validateApplicationForm(formData);
 
-  if (!firstName || !lastName || !email || !courseId) {
+  if (!validationResult.success) {
     return {
       success: false,
-      message: "Please fill in all required fields",
+      message: "Validation failed",
+      errors: validationResult.errors,
     };
   }
 
+  const validData = validationResult.data;
+  if (!validData) {
+    throw new Error("Unexpected bad validation data");
+  }
   try {
-    // Get the course details for the application
     const course = await prisma.course.findUnique({
-      where: { id: courseId },
+      where: { id: validData.courseId },
     });
 
     if (!course) {
@@ -37,16 +37,12 @@ export async function submitApplication(formData: FormData) {
       data: {
         userId: HARDCODED_USER_ID,
         courseDescription: `${course.courseName} at ${course.instituteName}`,
-        userName: `${firstName} ${lastName}`,
-        userEmail: email,
-        userPhone: phone || "",
-        applicationText: message || "",
+        userName: `${validData.firstName} ${validData.lastName}`,
+        userEmail: validData.email,
+        userPhone: validData.phone || "",
+        applicationText: validData.message || "",
       },
     });
-
-    // Revalidate the applications page
-    revalidatePath("/");
-    revalidatePath(`/in`);
 
     revalidateTag("applications-" + HARDCODED_USER_ID);
 
