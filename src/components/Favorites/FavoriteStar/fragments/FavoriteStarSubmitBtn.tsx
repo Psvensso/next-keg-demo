@@ -8,7 +8,11 @@ export function FavoriteStarSubmitBtn({ isFavorite }: { isFavorite: boolean }) {
 
   return (
     <Button
-      data-testid="favorites-toggle-btn"
+      data-testid={
+        isFavorite
+          ? "favorites-toggle-btn-isFavorite"
+          : "favorites-toggle-btn-isNotFavorite"
+      }
       variant="plain"
       type="submit"
       colorPalette="teal"

@@ -2,8 +2,8 @@ import CourseCard from "@/components/CourseCard";
 import { FavoriteStar } from "@/components/Favorites/FavoriteStar/FavoriteStar";
 import prismaClient from "@/db/prismaClient";
 import { Box, Flex } from "@chakra-ui/react";
+import { RemoveAllFavoritesBtn } from "../../components/Favorites/RemoveAllFavoritesBtn";
 import { NoFavoritesBlock } from "./fragments/NoFavoritesBlock";
-import { RemoveAllFavoritesBtn } from "./fragments/RemoveAllFavoritesBtn";
 
 export default async function FavoritesPage() {
   const favoriteCourses = await prismaClient.course.findMany({
