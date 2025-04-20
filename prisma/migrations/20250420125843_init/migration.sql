@@ -29,5 +29,17 @@ CREATE TABLE "CourseFilter" (
     "name" TEXT NOT NULL
 );
 
+-- CreateTable
+CREATE TABLE "applications" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "userId" TEXT NOT NULL,
+    "courseDescription" TEXT NOT NULL,
+    "userName" TEXT NOT NULL,
+    "userEmail" TEXT NOT NULL,
+    "userPhone" TEXT NOT NULL,
+    "applicationText" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "favorite_courses_userId_courseId_key" ON "favorite_courses"("userId", "courseId");

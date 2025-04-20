@@ -185,6 +185,7 @@ export const NewApplicationForm = ({ courseId }: NewApplicationFormProps) => {
           <Button
             type="submit"
             colorScheme="blue"
+            data-testid="submit-application-btn"
             disabled={isSubmitting}
             aria-label={isSubmitting ? "Submitting..." : "Submit Application"}
             mt="4"

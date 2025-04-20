@@ -1,4 +1,3 @@
-import { NewApplicationCard } from "@/components/Applications/NewApplication/NewApplicationCard";
 import { FavoriteStar } from "@/components/Favorites/FavoriteStar/FavoriteStar";
 import { Course } from "@/db/generated";
 import { Badge, Box, Flex, Grid, Heading, Stack, Text } from "@chakra-ui/react";
@@ -92,7 +91,6 @@ const CourseDetailsCard = ({ course }: TProps) => {
           </Text>
         </Box>
       </Box>
-      <NewApplicationCard courseId={course.id} />
     </>
   );
 };

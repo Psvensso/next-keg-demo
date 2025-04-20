@@ -42,6 +42,19 @@ model CourseFilter {
   id        String   @id @default(uuid())
   userId    String
   filter    String
-  name      String  
+  name      String
+}
 
+model Application {
+  id        String   @id @default(uuid())
+  userId    String
+  
+  courseDescription    String
+  userName    String
+  userEmail    String
+  userPhone    String
+  applicationText    String
+
+  createdAt DateTime @default(now())
+  @@map("applications")
 }

@@ -22,10 +22,16 @@ export const ListApplications = async () => {
           borderRadius="lg"
           overflow="hidden"
           transition="all 0.3s"
+          data-testid="submitted-application-course-card"
         >
           <Card.Header>
             <HStack justifyContent="space-between" alignItems="center">
-              <Heading size="md">{application.courseDescription}</Heading>
+              <Heading
+                size="md"
+                data-testid="submitted-application-course-description"
+              >
+                {application.courseDescription}
+              </Heading>
               <Badge colorScheme="blue">
                 {formatDistanceToNow(new Date(application.createdAt), {
                   addSuffix: true,
