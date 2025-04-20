@@ -27,7 +27,7 @@ export function DeleteFilterBtn({ filterId, deleteAction }: TProps) {
       aria-label="Delete filter"
       size="xs"
       variant="ghost"
-      _hover={{ color: "red.500" }}
+      _hover={{ colorPalette: "red" }}
       onClick={handleDelete}
     >
       <FaTrash />
