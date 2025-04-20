@@ -1,8 +1,6 @@
 import { unstable_cacheTag as cacheTag, revalidateTag } from "next/cache";
 import prismaClient from "../prismaClient";
-
-const HARDCODED_USER_ID = "ME";
-
+import { HARDCODED_USER_ID } from "./consts";
 
 export async function getFilters() {
   "use cache";
@@ -24,7 +22,7 @@ export async function getFilterById(filterId: string) {
 
 export async function createFilter(name: string, filter: string) {
   "use server";
-  
+
   const newFilter = await prismaClient.courseFilter.create({
     data: {
       userId: HARDCODED_USER_ID,
@@ -45,7 +43,9 @@ export async function deleteFilter(filterId: string) {
   });
 
   if (!filter || filter.userId !== HARDCODED_USER_ID) {
-    throw new Error("Filter not found or you don't have permission to delete it");
+    throw new Error(
+      "Filter not found or you don't have permission to delete it"
+    );
   }
 
   await prismaClient.courseFilter.delete({
