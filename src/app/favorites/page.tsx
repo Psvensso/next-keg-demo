@@ -1,8 +1,9 @@
 import CourseCard from "@/components/CourseCard";
 import { FavoriteStar } from "@/components/Favorites/FavoriteStar/FavoriteStar";
 import prismaClient from "@/db/prismaClient";
-import { Box, Button, Flex } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { NoFavoritesBlock } from "./fragments/NoFavoritesBlock";
+import { RemoveAllFavoritesBtn } from "./fragments/RemoveAllFavoritesBtn";
 
 export default async function FavoritesPage() {
   const favoriteCourses = await prismaClient.course.findMany({
@@ -30,9 +31,7 @@ export default async function FavoritesPage() {
       data-testid="favorites-list"
     >
       <Flex justifyContent="flex-end">
-        <Button size="2xs" variant="subtle" _hover={{ colorPalette: "red" }}>
-          Remove all
-        </Button>
+        <RemoveAllFavoritesBtn />
       </Flex>
       {favoriteCourses?.map((c) => (
         <Flex key={c.id}>
