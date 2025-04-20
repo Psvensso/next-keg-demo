@@ -1,5 +1,6 @@
 export const okFilterParams = {
   category: true,
+  institute: true,
 };
 
 export type FilterParamsRecord = Record<

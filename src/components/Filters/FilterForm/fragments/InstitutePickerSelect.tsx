@@ -10,18 +10,19 @@ import { useMemo } from "react";
 import { useAsync } from "react-use";
 import { useFilterFormContext } from "../useFilterForm";
 
-interface Category {
-  category: string;
+interface Institute {
+  instituteName: string;
+  instituteNameSlug: string;
 }
 
-const CategoryPickerSelect = () => {
+const InstitutePickerSelect = () => {
   const {
-    filterState: { category },
+    filterState: { institute },
     updateFilterValue,
   } = useFilterFormContext();
 
-  const optionsState = useAsync(async (): Promise<Category[]> => {
-    const response = await fetch("/api/courseMeta?type=categories");
+  const optionsState = useAsync(async (): Promise<Institute[]> => {
+    const response = await fetch("/api/courseMeta?type=institutes");
     const data = await response.json();
     return data;
   }, []);
@@ -29,40 +30,38 @@ const CategoryPickerSelect = () => {
   const collection = useMemo(() => {
     return createListCollection({
       items: optionsState.value ?? [],
+      itemToString: (item: Institute) => item.instituteName,
+      itemToValue: (item: Institute) => item.instituteNameSlug,
     });
   }, [optionsState.value]);
 
-  const arrayCategoryValue = useMemo(() => {
-    if (!category) {
-      return [];
-    }
-    if (Array.isArray(category)) {
-      return category;
-    }
-    return [category];
-  }, [category]);
+  const instituteValue = useMemo(() => {
+    if (!institute) return [""];
+    if (Array.isArray(institute)) return [institute[0] || ""];
+    return [institute];
+  }, [institute]);
 
   if (optionsState.error) {
-    return <div>Error loading categories</div>;
+    return <div>Error loading institutes</div>;
   }
+
   return (
     <Select.Root
-      multiple
       collection={collection}
-      value={arrayCategoryValue}
+      value={instituteValue}
       onValueChange={(value) => {
         updateFilterValue({
-          category: value.value,
+          institute: value.value[0],
         });
       }}
       size="sm"
       width="100%"
     >
       <Select.HiddenSelect />
-      <Select.Label>Select category</Select.Label>
+      <Select.Label>Select institute</Select.Label>
       <Select.Control>
         <Select.Trigger>
-          <Select.ValueText placeholder="Select category" />
+          <Select.ValueText placeholder="Select institute" />
         </Select.Trigger>
         <Select.IndicatorGroup>
           {optionsState.loading && (
@@ -74,9 +73,16 @@ const CategoryPickerSelect = () => {
       <Portal>
         <Select.Positioner>
           <Select.Content>
-            {collection.items.map((cat) => (
-              <Select.Item item={cat.category} key={cat.category}>
-                {cat.category}
+            <Select.Item item="" key="all">
+              All institutes
+              <Select.ItemIndicator />
+            </Select.Item>
+            {collection.items.map((inst: Institute) => (
+              <Select.Item
+                item={inst.instituteNameSlug}
+                key={inst.instituteNameSlug}
+              >
+                {inst.instituteName}
                 <Select.ItemIndicator />
               </Select.Item>
             ))}
@@ -87,4 +93,4 @@ const CategoryPickerSelect = () => {
   );
 };
 
-export default CategoryPickerSelect;
+export default InstitutePickerSelect;

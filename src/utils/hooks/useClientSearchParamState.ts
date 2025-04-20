@@ -16,7 +16,7 @@ function useClientSearchParams<T extends State>(
   initialState: T
 ): readonly [
   Record<keyof T, ParamValue>,
-  (newParams: Record<keyof T, string | string[]>, replace?: boolean) => void
+  (newParams: Partial<Record<keyof T, ParamValue>>, replace?: boolean) => void
 ] {
   const searchParams = useSearchParams();
   const searchParamsValues = getValues(
@@ -28,7 +28,7 @@ function useClientSearchParams<T extends State>(
 
   const updateValue = useCallback(
     (
-      newParams: Record<keyof T, string | string[]>,
+      newParams: Partial<Record<keyof T, ParamValue>>,
       replace: boolean = true
     ) => {
       const params = new URLSearchParams(searchParams.toString());
@@ -40,7 +40,7 @@ function useClientSearchParams<T extends State>(
           newValue.forEach((item) =>
             params.append(String(paramName), item.toString())
           );
-        } else {
+        } else if (newValue) {
           params.append(String(paramName), newValue.toString());
         }
       });

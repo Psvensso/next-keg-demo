@@ -3,12 +3,23 @@ import useClientSearchParamState from "@/utils/hooks/useClientSearchParamState";
 
 const defaultState = {
   category: [],
+  institute: "",
   page: "1",
 };
 
 export const useFilterForm = () => {
-  const [filterState, updateFilterValue] =
+  const [filterState, doUpdateFilterValue] =
     useClientSearchParamState(defaultState);
+
+  const updateFilterValue: typeof doUpdateFilterValue = (val, replace) => {
+    doUpdateFilterValue(
+      {
+        page: "1",
+        ...val,
+      },
+      replace
+    );
+  };
 
   return { filterState, updateFilterValue };
 };

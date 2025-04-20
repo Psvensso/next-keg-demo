@@ -1,6 +1,8 @@
 "use client";
-import { Flex } from "@chakra-ui/react";
+import { Button, VStack } from "@chakra-ui/react";
+import Link from "next/link";
 import CategoryPickerSelect from "./fragments/CategoryPickerSelect";
+import InstitutePickerSelect from "./fragments/InstitutePickerSelect";
 import { FilterFormProvider, useFilterForm } from "./useFilterForm";
 
 export const FilterForm = () => {
@@ -8,9 +10,13 @@ export const FilterForm = () => {
 
   return (
     <FilterFormProvider value={ctx}>
-      <Flex direction="column">
+      <VStack mt="12px" gap={2} align="stretch">
+        <Link href="/">
+          <Button variant="subtle">Clear</Button>
+        </Link>
         <CategoryPickerSelect />
-      </Flex>
+        <InstitutePickerSelect />
+      </VStack>
     </FilterFormProvider>
   );
 };
