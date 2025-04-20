@@ -1,47 +1,15 @@
 import { NewApplicationCard } from "@/components/Applications/NewApplication/NewApplicationCard";
 import { FavoriteStar } from "@/components/Favorites/FavoriteStar/FavoriteStar";
-import prismaClient from "@/db/prismaClient";
+import { Course } from "@/db/generated";
 import { Badge, Box, Flex, Grid, Heading, Stack, Text } from "@chakra-ui/react";
 import { format } from "date-fns";
 import { Suspense } from "react";
 
 type TProps = {
-  params: Promise<{ courseNameSlug: string; instituteNameSlug: string }>;
+  course: Course;
 };
 
-export async function generateStaticParams() {
-  const courses = await prismaClient.course.findMany({
-    select: {
-      courseNameSlug: true,
-      instituteNameSlug: true,
-    },
-
-    orderBy: {
-      category: "asc",
-    },
-  });
-
-  return courses;
-}
-
-const CoursePage = async ({ params }: TProps) => {
-  const paramValues = await params;
-  const course = await prismaClient.course.findFirst({
-    where: {
-      AND: [
-        { courseNameSlug: paramValues.courseNameSlug },
-        { instituteNameSlug: paramValues.instituteNameSlug },
-      ],
-    },
-    orderBy: {
-      category: "asc",
-    },
-  });
-
-  if (!course) {
-    throw new Error("Could not find that course");
-  }
-
+const CourseDetailsCard = ({ course }: TProps) => {
   // Format the start date
   const formattedDate = format(course.startDate, "MMMM d, yyyy");
 
@@ -98,7 +66,6 @@ const CoursePage = async ({ params }: TProps) => {
               <Text fontSize="lg">{course.location}</Text>
             </Box>
           </Stack>
-
           <Stack gap={4}>
             <Box>
               <Text fontWeight="medium" color="text.subtle">
@@ -106,7 +73,6 @@ const CoursePage = async ({ params }: TProps) => {
               </Text>
               <Text fontSize="lg">{course.language || "Not specified"}</Text>
             </Box>
-
             <Box>
               <Text fontWeight="medium" color="text.subtle">
                 Start Date
@@ -131,4 +97,4 @@ const CoursePage = async ({ params }: TProps) => {
   );
 };
 
-export default CoursePage;
+export default CourseDetailsCard;

@@ -10,7 +10,7 @@ export const FavoritesNavBtn = async (p: { to: string }) => {
       href={p.to}
       style={{ textDecoration: "none" }}
     >
-      <Button variant="outline" size="sm">
+      <Button variant="ghost" size="sm">
         Favorites {favorites?.length}{" "}
       </Button>
     </Link>

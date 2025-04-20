@@ -1,6 +1,7 @@
 import { FavoritesNavBtn } from "@/components/Favorites/FavoritesNavBtn";
 import { Provider } from "@/components/ui/provider";
-import { Box, Button, Container, Theme } from "@chakra-ui/react";
+import { Toaster } from "@/components/ui/toaster";
+import { Box, Button, Container, Heading, Theme } from "@chakra-ui/react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -36,13 +37,27 @@ export default function RootLayout({
                 height="100%"
                 display="flex"
                 alignItems="center"
+                justifyContent="space-between"
               >
-                <Link href={"/"} style={{ textDecoration: "none" }}>
-                  <Button variant="outline" size="sm">
-                    Home
-                  </Button>
-                </Link>
-                <FavoritesNavBtn to="/favorites" />
+                <Box>
+                  <Link href={"/"} style={{ textDecoration: "none" }}>
+                    <Button variant="ghost" size="sm">
+                      Home
+                    </Button>
+                  </Link>
+                  <FavoritesNavBtn to="/favorites" />
+                  <Link
+                    href={"/applications"}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <Button variant="ghost" size="sm">
+                      Applications
+                    </Button>
+                  </Link>
+                </Box>
+                <Heading textTransform="uppercase">
+                  {process.env.NODE_ENV}
+                </Heading>
               </Container>
             </Box>
             <Suspense>
@@ -54,6 +69,7 @@ export default function RootLayout({
                 {children}
               </Container>
             </Suspense>
+            <Toaster />
           </Theme>
         </Provider>
       </body>

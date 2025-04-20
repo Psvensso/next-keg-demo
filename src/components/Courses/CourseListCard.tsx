@@ -2,7 +2,7 @@ import { Course } from "@/db/generated";
 import { Badge, Box, Card, HStack, Text } from "@chakra-ui/react";
 import Link from "next/link";
 
-const CourseCard = ({
+const CourseListCard = ({
   course: {
     courseName,
     instituteName,
@@ -62,4 +62,4 @@ const CourseCard = ({
   );
 };
 
-export default CourseCard;
+export default CourseListCard;

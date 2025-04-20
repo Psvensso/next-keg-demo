@@ -1,6 +1,6 @@
 import prismaClient from "@/db/prismaClient";
 import { Box } from "@chakra-ui/react";
-import CourseCard from "../CourseCard";
+import CourseListCard from "../CourseListCard";
 import { SearchResultPagination } from "./fragments/SearchResultPagination";
 
 export interface SearchResultProps {
@@ -17,8 +17,8 @@ export const SearchResult = async ({
   const categories = Array.isArray(category)
     ? category
     : category
-      ? [category]
-      : [];
+    ? [category]
+    : [];
 
   const currentPage = parseInt(page, 10);
   const itemsPerPage = parseInt(pageSize, 10);
@@ -40,7 +40,9 @@ export const SearchResult = async ({
 
   return (
     <Box flex="1" display="flex" flexDir="column" m="16px" gap="8px">
-      {courses?.map((c) => <CourseCard course={c} key={c.id} />)}
+      {courses?.map((c) => (
+        <CourseListCard course={c} key={c.id} />
+      ))}
 
       <Box mt={4} display="flex" justifyContent="center">
         <SearchResultPagination
