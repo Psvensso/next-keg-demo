@@ -1,7 +1,15 @@
 # Getting Started
 
 ```bash
-npm install && npm run dev
+npm install
+```
+
+```bash
+npm run db:reset
+```
+
+```bash
+npm run dev
 ```
 
 ## Known limitations / Considerations
