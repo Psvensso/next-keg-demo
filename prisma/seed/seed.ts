@@ -1,12 +1,9 @@
-import { PrismaClient } from "@/db/generated";
+import prisma from "@/db/prismaClient";
 import csv from "csv-parser";
-import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
 import stripBom from "strip-bom-stream";
 import { fileURLToPath } from "url";
-
-dotenv.config({ override: true });
 
 //Makes a url safe slug name from a course title
 function sluggify(str: string) {
@@ -23,7 +20,6 @@ function sluggify(str: string) {
   return str;
 }
 
-const prisma = new PrismaClient();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -99,12 +95,9 @@ async function seedDatabase() {
         rows.push(row);
       })
       .on("end", async () => {
-        console.log(`Database seeding completed`);
-        await prisma.$disconnect();
         resolve(true);
       })
       .on("error", (error) => {
-        console.error("Error reading CSV:", error);
         reject(error);
       });
   });
@@ -112,8 +105,6 @@ async function seedDatabase() {
   for (const row of rows) {
     await saveRow(row);
   }
-
-  return;
 }
 
 seedDatabase().catch((e) => {
