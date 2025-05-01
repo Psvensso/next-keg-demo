@@ -13,8 +13,8 @@
     "db:generate": "prisma generate",
     "db:seed": "tsx ./prisma/seed/seed.ts",
     "db:prepare:prod": "npm run db:migrate && npm run db:generate && npm run db:seed",
-    "build:ci": "npm run db:migrate && npm run db:generate && npm run db:seed && next build",
-    "build": "next build"
+    "build-full-restore": "npm run db:migrate && npm run db:generate && npm run db:seed && next build",
+    "build": "prisma migrate && next build"
   },
   "dependencies": {
     "@chakra-ui/react": "^3.16.1",
