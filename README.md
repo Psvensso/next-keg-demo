@@ -41,3 +41,6 @@ Im using growl on a few places and in some not, user feedback should be better a
 ### Form validations
 
 I did a quite simple zod implementation on the application form, could have been structured better. There are some bugs or limitations in the 15 form handling that i did not have time to solve. If the server is offline for example and the action fails when submitting an application the data in the form is lost/reset, very annoying. https://github.com/vercel/next.js/issues/72949
+
+### useActionState / final thoughts
+I later realised i could have used more of the "new" useActionState. This is all pretty new stuff so deadling with actions/client/server state requires some more carefull thoughts, both is compontent structure (how to name and place components) and then also how to glue them together. 
