@@ -7,7 +7,7 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div>Loading institutes...</div>}>
       <Container maxW="container.lg">{children}</Container>
     </Suspense>
   );
