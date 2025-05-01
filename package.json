@@ -5,13 +5,16 @@
   "scripts": {
     "dev": "next dev",
     "dev:test": "set NODE_ENV=test&&next dev --port=3001",
-    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "bump": "npx npm-check-updates -i --format group --install never",
+    "db:reset": "rimraf src/db/generated/ && prisma migrate dev --name init --schema=prisma/schema.prisma && npm run db:seed",
+    "db:migrate": "prisma migrate deploy --schema=prisma/schema.prisma",
+    "db:generate": "prisma generate",
     "db:seed": "tsx ./prisma/seed/seed.ts",
-    "db:studio": "npx prisma studio --schema=prisma/schema.prisma",
-    "db:reset": "rimraf src/db/generated/ && prisma migrate dev --name init --schema=prisma/schema.prisma && npm run db:seed"
+    "db:prepare:prod": "npm run db:migrate && npm run db:generate && npm run db:seed",
+    "build:ci": "npm run db:migrate && npm run db:generate && npm run db:seed && next build",
+    "build": "next build"
   },
   "dependencies": {
     "@chakra-ui/react": "^3.16.1",
