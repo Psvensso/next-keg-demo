@@ -80,6 +80,14 @@ async function saveRow(row: CourseCsvRow) {
 }
 
 async function seedDatabase() {
+  // Delete all data from tables in reverse order of dependencies
+  await prisma.application.deleteMany({});
+  await prisma.favoriteCourse.deleteMany({});
+  await prisma.courseFilter.deleteMany({});
+  await prisma.course.deleteMany({});
+
+  console.log("Database cleaned, starting seed process...");
+
   const filePath = path.join(__dirname, "technical_assignment_input_data.csv");
 
   const rows: CourseCsvRow[] = [];
@@ -102,9 +110,11 @@ async function seedDatabase() {
       });
   });
 
+  console.log(`Seeding ${rows.length} courses...`);
   for (const row of rows) {
     await saveRow(row);
   }
+  console.log("Seeding completed successfully.");
 }
 
 seedDatabase().catch((e) => {
