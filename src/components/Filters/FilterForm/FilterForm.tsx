@@ -1,11 +1,34 @@
 "use client";
-import { Button, VStack } from "@chakra-ui/react";
+import { Box, Button, Spinner, VStack } from "@chakra-ui/react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
-import CategoryPickerSelect from "./fragments/CategoryPickerSelect";
-import InstitutePickerSelect from "./fragments/InstitutePickerSelect";
 import { FilterFormProvider, useFilterForm } from "./useFilterForm";
 
-export const FilterForm = () => {
+const CategoryPickerSelect = dynamic(
+  () => import("./fragments/CategoryPickerSelect"),
+  {
+    ssr: false,
+    loading: () => (
+      <Box p={4} textAlign="center">
+        <Spinner size="md" />
+      </Box>
+    ),
+  }
+);
+
+const InstitutePickerSelect = dynamic(
+  () => import("./fragments/InstitutePickerSelect"),
+  {
+    ssr: false,
+    loading: () => (
+      <Box p={4} textAlign="center">
+        <Spinner size="md" />
+      </Box>
+    ),
+  }
+);
+
+const FilterForm = () => {
   const ctx = useFilterForm();
 
   return (
@@ -22,3 +45,5 @@ export const FilterForm = () => {
     </FilterFormProvider>
   );
 };
+
+export default FilterForm;

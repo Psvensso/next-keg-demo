@@ -1,5 +1,5 @@
 import { SearchResult } from "@/components/Courses/SearchResult/SearchResult";
-import { FilterForm } from "@/components/Filters/FilterForm/FilterForm";
+import FilterForm from "@/components/Filters/FilterForm/FilterForm";
 import { SavedFiltersSelector } from "@/components/Filters/SavedFiltersSelector/SavedFiltersSelector";
 import { SaveFilterBtn } from "@/components/Filters/SaveFilterBtn/SaveFilterBtn";
 import { FilterParamsRecord } from "@/db/filterTypes";

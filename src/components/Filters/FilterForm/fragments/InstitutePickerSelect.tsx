@@ -7,37 +7,43 @@ import {
 } from "@chakra-ui/react";
 import { useMemo } from "react";
 
-import { useAsync } from "react-use";
+import { useAsync, useLocalStorage } from "react-use";
 import { useFilterFormContext } from "../useFilterForm";
 
 interface Institute {
   instituteName: string;
   instituteNameSlug: string;
 }
-
+const LOCAL_STORAGE_KEY = "KEG-institutes";
 const InstitutePickerSelect = () => {
   const {
     filterState: { institute },
     updateFilterValue,
   } = useFilterFormContext();
+  const [institutesStateCache, setInstitutesCache] =
+    useLocalStorage<Institute[]>(LOCAL_STORAGE_KEY);
 
   const optionsState = useAsync(async (): Promise<Institute[]> => {
+    if (institutesStateCache) {
+      return Promise.resolve(institutesStateCache);
+    }
     const response = await fetch("/api/courseMeta?type=institutes");
     const data = await response.json();
+    setInstitutesCache(data);
     return data;
-  }, []);
+  }, [institutesStateCache]);
 
   const collection = useMemo(() => {
     return createListCollection({
-      items: optionsState.value ?? [],
+      items: institutesStateCache ?? [],
       itemToString: (item: Institute) => item.instituteName,
       itemToValue: (item: Institute) => item.instituteNameSlug,
     });
-  }, [optionsState.value]);
+  }, [institutesStateCache]);
 
   const instituteValue = useMemo(() => {
-    if (!institute) return [""];
-    if (Array.isArray(institute)) return [institute[0] || ""];
+    if (!institute) return [];
+    if (Array.isArray(institute)) return institute;
     return [institute];
   }, [institute]);
 
@@ -51,32 +57,30 @@ const InstitutePickerSelect = () => {
       value={instituteValue}
       onValueChange={(value) => {
         updateFilterValue({
-          institute: value.value[0],
+          institute: value.value,
         });
       }}
+      multiple
       size="sm"
       width="100%"
     >
       <Select.HiddenSelect />
-      <Select.Label>Select institute</Select.Label>
+      <Select.Label>Institute</Select.Label>
       <Select.Control>
         <Select.Trigger>
-          <Select.ValueText placeholder="Select institute" />
+          <Select.ValueText placeholder="All institutes" />
         </Select.Trigger>
         <Select.IndicatorGroup>
           {optionsState.loading && (
             <Spinner size="xs" borderWidth="1.5px" color="fg.muted" />
           )}
           <Select.Indicator />
+          <Select.ClearTrigger />
         </Select.IndicatorGroup>
       </Select.Control>
       <Portal>
         <Select.Positioner>
           <Select.Content>
-            <Select.Item item="" key="all">
-              All institutes
-              <Select.ItemIndicator />
-            </Select.Item>
             {collection.items.map((inst: Institute) => (
               <Select.Item
                 item={inst.instituteNameSlug}

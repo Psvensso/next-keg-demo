@@ -1,3 +1,4 @@
+"use client";
 import { createContext } from "@/utils/createContext";
 import useClientSearchParamState from "@/utils/hooks/useClientSearchParamState";
 
